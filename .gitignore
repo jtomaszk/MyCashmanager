@@ -1,0 +1,12 @@
+.idea
+*.iml
+secret.prop
+sqlite.db
+*.pyc
+logs/*
+!.gitkeep
+node_modules/
+bower_components/
+static/gen/
+tmp
+.DS_Store
