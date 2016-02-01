@@ -1,0 +1,23 @@
+<div ng-controller="CategoryCtrl" ng-init="initCategoryList()">
+
+    <table class="table">
+        <tr ng-repeat="i in list">
+            <td>
+                <div class="form-group" ng-class="errorStyle(i.error)">
+                    <input ng-model="i.name"
+                           ng-blur="saveShelf(i)"
+                           ng-click="editShelf(i)"
+                           placeholder="Write name of category"
+                           class="form-control"
+                           ng-value="i.name"/>
+
+                    <span class="help-block" ng-show="i.error">Cannot be empty!</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <button type="button" class="btn btn-default" ng-click="add()">Add new category</button>
+</div>
+
+

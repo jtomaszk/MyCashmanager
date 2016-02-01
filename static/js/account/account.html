@@ -1,0 +1,15 @@
+<div ng-controller="AccountCtrl" ng-init="initData()">
+
+    <p>Account: {{ account.name }} {{ account.balance }}</p>
+    <div>
+        <ul>
+            <li ng-repeat="i in transactions">
+                {{ i.id }}
+                {{ i.type }}
+                {{ i.amount | currency: account.currency_name }}
+                {{ i.category_name }}
+                {{ i.comment }}
+            </li>
+        </ul>
+    </div>
+</div>

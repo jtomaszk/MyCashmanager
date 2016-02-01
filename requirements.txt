@@ -1,0 +1,7 @@
+Flask==0.10.1
+Flask-OAuthlib
+Flask-Migrate
+Flask-Testing
+Flask-Bower
+Flask-Assets
+sqlalchemy

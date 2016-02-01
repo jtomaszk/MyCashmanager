@@ -1,0 +1,21 @@
+<div ng-controller="DashCtrl">
+
+
+<div ng-init="getAccounts()">
+    <ul>
+        <li ng-repeat="i in accounts">
+            {{ i.id }}
+            {{ i.name }}
+            {{ i.balance | currency: i.currency_name }}
+
+            <button type="button" class="btn btn-xs btn-default" ng-click="openTransactionContent(i.id)">Add transaction</button>
+            <button type="button" class="btn btn-xs btn-default" ng-click="viewAccount(i.id)">View</button>
+        </li>
+    </ul>
+</div>
+
+<button type="button" class="btn btn-default" ng-click="open()">Create account</button>
+
+<div ng-show="selected">Selection from a modal: {{ selected }}</div>
+
+</div>

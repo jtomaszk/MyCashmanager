@@ -1,0 +1,44 @@
+<!doctype html>
+<html ng-app="myCashManager">
+<head>
+    <title>{% block title %}Welcome{% endblock %} | Flask OAuth Example</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('bower.static', filename='html5-boilerplate/dist/css/normalize.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('bower.static', filename='html5-boilerplate/dist/css/main.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('bower.static', filename='bootstrap/dist/css/bootstrap.min.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('bower.static', filename='bootstrap/dist/css/bootstrap-theme.min.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('bower.static', filename='bootstrap-select/dist/css/bootstrap-select.min.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('bower.static', filename='angular-bootstrap/ui-bootstrap-csp.css') }}">
+
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/app.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <link id="linkApiRoot" href="/static/js/"/>
+    <h1>Flask OAuth Example</h1>
+    <ul class=navigation>
+        <li><a href=" {{ url_for('index') }}">overview</a></li>
+        {% if g.user %}
+        <li><a href="{{ url_for('logout') }}">sign out [{{ g.user.screen_name}}]</a></li>
+        {% else %}
+        <li><a href="{{ url_for('login') }}">sign in</a></li>
+        {% endif %}
+    </ul>
+    {% for message in get_flashed_messages() %}
+    <p class=message>{{ message }}</p>
+    {% endfor %}
+    {% block body %}{% endblock %}
+
+
+    <script src="{{ url_for('bower.static', filename='jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='angular/angular.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='angular-route/angular-route.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='angular-animate/angular-animate.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='angular-bootstrap/ui-bootstrap-tpls.min.js') }}"></script>
+
+    {% assets "js_all" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+</body>
+</html>

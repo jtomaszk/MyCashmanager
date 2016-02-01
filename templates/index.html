@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="navbar navbar-fixed-top navbar-default">
+  <div class="btn-group pull-right">
+    <a class="btn" href="#/dash">Dashboard</a>
+    <a class="btn" href="#/account">Transactions</a>
+    <a class="btn" href="#/category">Categories</a>
+  </div>
+</div>
+
+<div ng-view></div>
+<div>Angular seed app: v<span app-version></span></div>
+
+
+{% endblock %}

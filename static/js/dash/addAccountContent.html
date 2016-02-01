@@ -1,0 +1,35 @@
+
+<form name="addAccountContentForm" class="form-horizontal" ng-submit="submit(addAccountContentForm)" novalidate>
+    <div class="modal-header">
+        <h3 class="modal-title">Add account</h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="inputName" class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputName" placeholder="insert account name" ng-model="selected.accountName" ng-minlength="3" required>
+            </div>
+        </div>
+
+        <div class="form-group" ng-init="getCurrencies()">
+            <label for="currencyDropdown" class="col-sm-2 control-label">Currency</label>
+            <div class="col-sm-10">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="currencyDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        {{ selected.currency.name }}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
+                        <li ng-repeat="item in currencies">
+                            <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item.name }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" ng-disabled="addAccountContentForm.$invalid">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

@@ -1,0 +1,26 @@
+{
+  "name": "angular-seed",
+  "description": "A starter project for AngularJS",
+  "version": "0.0.0",
+  "homepage": "https://github.com/angular/angular-seed",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.4.0",
+    "angular-route": "~1.4.0",
+    "angular-loader": "~1.4.0",
+    "angular-mocks": "~1.4.0",
+    "angular-bootstrap": "~1.1.1",
+    "html5-boilerplate": "~5.2.0",
+    "bootstrap": "~3.3.6",
+    "angular-messages": "~1.4.7",
+    "bootstrap-select": "~1.7.5",
+    "Flot": "jquery-flot#~0.8.3",
+    "angular-translate": "~2.8.1",
+    "angular-translate-loader-static-files": "~2.8.1",
+    "angular-translate-storage-local": "~2.8.1",
+    "angular-cookie": "~4.0.9",
+    "angular-animate": "~1.4.8",
+    "jasmine-core": "jasmine#~2.3.4"
+  }
+}
