@@ -1,0 +1,48 @@
+<div ng-controller="CyclesCtrl"">
+    <div class="page-header">
+        <h1>Cycle transactions
+            <small></small>
+            <button type="button" class="btn btn-default pull-right" ng-click="open()">Add new cycle</button>
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table" ng-init="getCycles()">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Account</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                    <th>Name</th>
+                    <th>Date start</th>
+                    <th>Details</th>
+                    <th>Date next</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="i in cycles">
+                    <td>{{ }}</td>
+                    <td>{{ i.account_name }}</td>
+                    <td>{{ i.amount | currency: i.account_currency_name }}</td>
+                    <td>{{ i.transaction_type }}</td>
+                    <td>{{ i.category_name }}</td>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.date_start | date : 'mediumDate'}}</td>
+                    <td>
+                        {{ i.repeat_every ? 'repeat every ' + i.repeat_every + ' ' + i.repeat_type : ""}}
+                        {{ i.max_count ? i.max_count + ' times' : '' }}
+                        {{ i.date_end ? 'until ' + (i.date_end | date : 'mediumDate') : '' }}
+                    </td>
+                    <td>{{ i.date_next | date : 'mediumDate'}}</td>
+                    <td>
+                        <button type="button" class="btn btn-xs btn-default" ng-click="openAddTransactionContent(i)">Save transaction</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

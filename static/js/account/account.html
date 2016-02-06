@@ -1,15 +1,31 @@
 <div ng-controller="AccountCtrl" ng-init="initData()">
-
-    <p>Account: {{ account.name }} {{ account.balance }}</p>
-    <div>
-        <ul>
-            <li ng-repeat="i in transactions">
-                {{ i.id }}
-                {{ i.type }}
-                {{ i.amount | currency: account.currency_name }}
-                {{ i.category_name }}
-                {{ i.comment }}
-            </li>
-        </ul>
+    <div class="page-header">
+        <h1>Transactions <small>account: {{ account.name }} {{ account.balance | currency: account.currency_name }}</small></h1>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                    <th>Comment</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="i in transactions">
+                        <td>{{  }}</td>
+                        <td>{{ i.date | date : 'mediumDate'}}</td>
+                        <td>{{ i.amount | currency: account.currency_name }}</td>
+                        <td>{{ i.transaction_type }}</td>
+                        <td>{{ i.category_name }}</td>
+                        <td>{{ i.comment }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

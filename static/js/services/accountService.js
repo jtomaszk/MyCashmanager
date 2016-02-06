@@ -32,7 +32,8 @@ angular.module('myCashManager.accountServices', [])
             categoryId: selected.category.id,
             date: selected.date,
             value: selected.value,
-            comment: selected.comment
+            comment: selected.comment,
+            destinationAccountId: selected.destinationAccount != null ? selected.destinationAccount.id : null
         });
     };
 
@@ -46,6 +47,34 @@ angular.module('myCashManager.accountServices', [])
                     }, {
                         enum: 'INCOME',
                         name: 'income'
+                    }, {
+                        enum: 'TRANSFER',
+                        name: 'transfer'
+                    }
+                ]
+            }
+        };
+        var deferred = $q.defer();
+        deferred.resolve(data);
+        return deferred.promise;
+    };
+
+    this.getRepeatTypes = function() {
+        var data = {
+            data: {
+                response: [
+                    {
+                        enum: 'days',
+                        name: 'days'
+                    }, {
+                        enum: 'weeks',
+                        name: 'weeks'
+                    }, {
+                        enum: 'months',
+                        name: 'months'
+                    }, {
+                        enum: 'years',
+                        name: 'years'
                     }
                 ]
             }
@@ -68,6 +97,22 @@ angular.module('myCashManager.accountServices', [])
     this.postTransactionCategory = function(i) {
         return $http.post('/category', {
             category: i
+        });
+    };
+
+    this.getCycles = function() {
+        return $http.get('/cycles');
+    };
+
+    this.putCycle = function(i) {
+        return $http.put('/cycle', {
+            item: i
+        });
+    };
+
+    this.putCycleTransaction = function(i) {
+        return $http.put('/transaction/cycle/' + i.cycleId, {
+            item: i.item
         });
     };
 });

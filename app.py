@@ -12,6 +12,8 @@ from database.config import db
 from account_api.account_controller import account_api
 from account_api.transaction_controller import transaction_api
 from account_api.category_controller import category_api
+from account_api.currency_controller import currency_api
+from account_api.cycle_controller import cycle_api
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 config = configparser.ConfigParser()
@@ -44,6 +46,9 @@ js = Bundle('js/app.js',
             'js/services/accountService.js',
             'js/services/appService.js',
             'js/category/category.js',
+            'js/cycles/cycles.js',
+            'js/cycles/add_cycle_ctrl.js',
+            'js/cycles/add_cycle_transaction_ctrl.js',
             filters='rjsmin', output='gen/packed.js')
 assets.register('js_all', js)
 
@@ -68,6 +73,8 @@ app.register_blueprint(login_api)
 app.register_blueprint(account_api)
 app.register_blueprint(transaction_api)
 app.register_blueprint(category_api)
+app.register_blueprint(currency_api)
+app.register_blueprint(cycle_api)
 
 Bower(app)
 
@@ -76,6 +83,16 @@ def setup_database(app):
     with app.app_context():
         db.create_all()
 
+# @app.before_request
+# def before_request():
+#     db.session.begin()
+
+@app.teardown_request
+def teardown_request(exception):
+    if exception is None:
+        db.session.commit()
+    else:
+        db.session.rollback()
 
 @app.route('/')
 def index():

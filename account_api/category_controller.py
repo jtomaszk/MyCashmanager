@@ -36,3 +36,7 @@ def post_category():
     ret = category.update()
     return jsonify(response=ret.serialize())
 
+
+@category_api.route('/category/<uuid:category_id>', methods=['DELETE'])
+def delete_category(category_id):
+    raise Exception('Not implemented!')  # TODO

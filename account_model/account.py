@@ -1,3 +1,8 @@
+import uuid
+import datetime
+from sqlalchemy_utils import UUIDType
+
+from database.numeric_type import SqliteNumeric
 from account_model.transaction import Transaction
 from account_model.currency import Currency
 from database.serializer import *
@@ -8,16 +13,17 @@ __author__ = 'jtomaszk'
 
 
 class Account(db.Model, Serializer, UserAware):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(UUIDType(binary=False), primary_key=True)
     name = db.Column(db.String(200))
     deleted = db.Column(db.Boolean)
-    currency_id = db.Column(db.Integer, db.ForeignKey(Currency.id))
+    currency_id = db.Column(UUIDType(binary=False), db.ForeignKey(Currency.id))
     currency = db.relationship(Currency)
-    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    user_id = db.Column(UUIDType(binary=False), db.ForeignKey(User.id))
     transactions = db.relationship(Transaction)
     balance = db.Column(SqliteNumeric)
 
     def __init__(self, user_id, currency_id, name):
+        self.id = uuid.uuid4()
         self.user_id = user_id
         self.currency_id = currency_id
         self.name = name
@@ -35,28 +41,28 @@ class Account(db.Model, Serializer, UserAware):
             .filter(Account.id.is_(account_id)) \
             .one()
 
-    def add_income(self, amount, category_id, comment=''):
-        transaction = Transaction(self.id, amount, amount, self.currency_id, category_id)
-        transaction.type = 'INCOME'
+    def add_income(self, amount, category_id, comment='', date=datetime.datetime.now()):
+        transaction = Transaction(self.id, amount, 'INCOME', category_id)
         transaction.comment = comment
-        db.session.add(transaction)
+        transaction.date = date
+        transaction.add()
         self.balance += amount
-        db.session.commit()
+        return transaction
 
-    def add_outcome(self, amount, category_id, comment=''):
-        transaction = Transaction(self.id, amount, amount, self.currency_id, category_id)
-        transaction.type = 'OUTCOME'
+    def add_outcome(self, amount, category_id, comment='', date=datetime.datetime.now()):
+        transaction = Transaction(self.id, amount, 'OUTCOME', category_id)
         transaction.comment = comment
-        db.session.add(transaction)
+        transaction.date = date
+        transaction.add()
         self.balance -= amount
-        db.session.commit()
+        return transaction
 
     def check_balance(self):
         balance = 0
         for i in self.transactions:
-            if i.type == 'INCOME':
+            if i.transaction_type == 'INCOME':
                 balance += i.amount
-            elif i.type == 'OUTCOME':
+            elif i.transaction_type == 'OUTCOME':
                 balance -= i.amount
             else:
                 balance += i.amount

@@ -1,9 +1,11 @@
 from test_utils import TestCase
 from account_model.currency import *
+import uuid
 
 __author__ = 'jtomaszk'
 
-USER_ID = 12343
+USER_ID = uuid.uuid4()
+USER_ID_2 = uuid.uuid4()
 
 
 class TestCurrency(TestCase):
@@ -26,7 +28,7 @@ class TestCurrency(TestCase):
     def test_get_accounts_other_user(self):
         Currency('PLN', USER_ID).add()
 
-        cur_list = Currency.all(22)
+        cur_list = Currency.all(USER_ID_2)
 
         self.assertEqual(len(cur_list), 0)
 

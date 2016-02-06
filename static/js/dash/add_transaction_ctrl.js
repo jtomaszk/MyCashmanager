@@ -7,13 +7,15 @@ angular.module('myCashManager.dash').controller('ModalAddTransactionCtrl',
 
     $scope.transactionTypes = [];
     $scope.transactionCategories = [];
+    $scope.destinationAccounts = [];
     $scope.selected = {
         accountId: accountId,
-        type: '',
-        category: '',
+        type: null,
+        category: null,
         date: new Date(),
-        value: '',
-        comment: ''
+        value: null,
+        comment: null,
+        destinationAccount: null
     };
 
     $scope.initForm = function() {
@@ -24,6 +26,12 @@ angular.module('myCashManager.dash').controller('ModalAddTransactionCtrl',
         accountService.getTransactionCategories().then(function(result) {
             $scope.transactionCategories = result.data.response;
             $scope.selected.category = $scope.transactionCategories[0];
+        });
+        accountService.getAccounts().then(function(result) {
+            $scope.destinationAccounts = result.data.response.filter(function (item) {
+                return item.id != $scope.selected.accountId;
+            });
+            $scope.selected.destinationAccount = $scope.destinationAccounts[0];
         });
     };
 

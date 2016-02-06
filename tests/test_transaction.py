@@ -1,5 +1,6 @@
 import datetime
 from decimal import *
+import uuid
 
 from test_utils import TestCase
 from account_model.transaction import Transaction
@@ -7,14 +8,14 @@ from account_model.transaction import Transaction
 
 DATETIME = datetime.datetime.now()
 
-CATEGORY_ID = 12
+CATEGORY_ID = uuid.uuid4()
 
 TYPE = 'INCOME'
 
 AMOUNT = Decimal('10.2')
 AMOUNT_2 = Decimal('99.99')
 
-ACCOUNT_ID = 1
+ACCOUNT_ID = uuid.uuid4()
 
 __author__ = 'jtomaszk'
 
@@ -27,7 +28,7 @@ class TestTransaction(TestCase):
     def test_construct(self):
         # account_id, amount, type, category_id, amount_orig, orig_currency_id, date
         ret = Transaction(ACCOUNT_ID, AMOUNT, TYPE, CATEGORY_ID, None, None, DATETIME)
-        self.assertIsNone(ret.id)
+        self.assertIsNotNone(ret.id)
         self.assertEqual(ret.account_id, ACCOUNT_ID)
         self.assertEqual(ret.amount, AMOUNT)
         self.assertEqual(ret.amount_orig, None)
