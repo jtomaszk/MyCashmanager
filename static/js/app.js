@@ -5,8 +5,9 @@ function $apiRoot() {
 }
 
 // Declare app level module which depends on views, and components
-angular.module('myCashManager', [
+var app = angular.module('myCashManager', [
   'ngRoute',
+  'xeditable',
   'myCashManager.dash',
   'myCashManager.account',
   'myCashManager.version',
@@ -37,3 +38,6 @@ angular.module('myCashManager', [
   };
 }]);
 
+app.run(function(editableOptions) {
+    editableOptions.theme = 'bs3';
+});

@@ -45,11 +45,13 @@ class Serializer(object):
         db.session.merge(self)
         return self
 
+    def delete(self):
+        db.session.delete(self)
+        return self
+
     @classmethod
     def get(cls, id):
-        return cls.query \
-            .filter(cls.id.is_(id)) \
-            .one()
+        return cls.query.get(id)
 
 
 class Column(object):

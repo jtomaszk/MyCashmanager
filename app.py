@@ -87,12 +87,14 @@ def setup_database(app):
 # def before_request():
 #     db.session.begin()
 
+
 @app.teardown_request
 def teardown_request(exception):
     if exception is None:
         db.session.commit()
     else:
         db.session.rollback()
+
 
 @app.route('/')
 def index():

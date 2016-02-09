@@ -12,17 +12,13 @@ di = DataInitializer()
 
 @transaction_api.route('/transaction', methods=['PUT'])
 def put_transaction():
-    user_id = session['user_id']
     account_id = request.json['accountId']
-    value = request.json['value']
+    value = Decimal(request.json['value'])
     trans_type = request.json['type']
     category_id = request.json['categoryId']
-    if 'comment' in request.json:
-        comment = request.json['comment']
-    else:
-        comment = None
+    comment = request.json.get('comment', '')
 
-    account = Account.get_account(account_id, user_id)
+    account = Account.get(account_id)
 
     if trans_type == 'INCOME':
         account.add_income(value, category_id, comment)
@@ -30,38 +26,91 @@ def put_transaction():
         account.add_outcome(value, category_id, comment)
     elif trans_type == 'TRANSFER':
         destination_account_id = request.json['destinationAccountId']
-        destination_account = Account.get_account(destination_account_id, user_id)
+        destination_account = Account.get(destination_account_id)
         source = account.add_outcome(value, category_id, comment)
         destination = destination_account.add_income(value, category_id, comment)
         source.connect(destination)
         destination.connect(source)
     else:
-        return '', 400
+        return 'invalid type', 400
 
     return '', 204
 
 
 @transaction_api.route('/transaction', methods=['POST'])
 def post_transaction():
-    # TODO
-    raise Exception('Not implemented!')
+    transaction_id = request.json['id']
+    new_value = Decimal(request.json['value'])
+    new_trans_type = request.json['type']
+    category_id = request.json['category_id']
+    comment = request.json.get('comment', '')
+
+    transaction = Transaction.get(transaction_id)
+    account = Account.get(transaction.account_id)
+
+    old_trans_type = transaction.transaction_type
+    old_value = transaction.amount
+
+    if old_trans_type == 'INCOME':
+        account.decrease_balance(old_value)
+    elif old_trans_type == 'OUTCOME':
+        account.increase_balance(old_value)
+    else:
+        return 'invalid type', 400
+
+    if new_trans_type == 'INCOME':
+        account.increase_balance(new_value)
+    elif new_trans_type == 'OUTCOME':
+        account.decrease_balance(new_value)
+    else:
+        return 'invalid type', 400
+
+    transaction.transaction_type = new_trans_type
+    transaction.amount = new_value
+    transaction.comment = comment
+    transaction.category_id = category_id
+
+    return '', 200
 
 
 @transaction_api.route('/transaction/<uuid:transaction_id>', methods=['DELETE'])
 def delete_transaction(transaction_id):
-    # TODO
-    raise Exception('Not implemented!')
+    transaction = Transaction.get(transaction_id)
+    account = Account.get(transaction.account_id)
+
+    old_trans_type = transaction.transaction_type
+    old_value = transaction.amount
+
+    if old_trans_type == 'INCOME':
+        account.decrease_balance(old_value)
+    elif old_trans_type == 'OUTCOME':
+        account.increase_balance(old_value)
+    else:
+        return 'invalid type', 400
+
+    if transaction.transfer_id is not None:
+        dest_trans = Transaction.get(transaction.transfer_id)
+        dest_account = Account.get(dest_trans.account_id)
+
+        if old_trans_type == 'INCOME':
+            dest_account.increase_balance(old_value)
+        elif old_trans_type == 'OUTCOME':
+            dest_account.decrease_balance(old_value)
+
+        dest_trans.delete()
+
+    transaction.delete()
+
+    return jsonify(response=True)
 
 
 @transaction_api.route('/transaction/<uuid:transaction_id>', methods=['GET'])
 def get_transaction(transaction_id):
-    # TODO
-    raise Exception('Not implemented!')
+    return jsonify(response=Transaction.get(transaction_id).serialize())
 
 
 @transaction_api.route('/transactions/<uuid:account_id>', methods=['GET'])
 def get_transactions(account_id):
-    user_id = session['user_id']
-    account = Account.get_account(account_id, user_id)
+    account = Account.get(account_id)
     return jsonify(response=Transaction.serialize_list(account.transactions),
                    account=account.serialize())

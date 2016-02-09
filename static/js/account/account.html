@@ -3,7 +3,7 @@
         <h1>Transactions <small>account: {{ account.name }} {{ account.balance | currency: account.currency_name }}</small></h1>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-offset-1 col-md-10">
             <table class="table">
                 <thead>
                 <tr>
@@ -13,16 +13,56 @@
                     <th>Type</th>
                     <th>Category</th>
                     <th>Comment</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="i in transactions">
                         <td>{{  }}</td>
                         <td>{{ i.date | date : 'mediumDate'}}</td>
-                        <td>{{ i.amount | currency: account.currency_name }}</td>
-                        <td>{{ i.transaction_type }}</td>
-                        <td>{{ i.category_name }}</td>
-                        <td>{{ i.comment }}</td>
+                        <td>
+                            <span e-form="rowform" e-class="input-sm" e-name="value"
+                                    e-required
+                                    editable-number="i.amount" e-min="18" e-step="0.01">
+                                {{ i.amount | currency: account.currency_name }}
+                            </span>
+                        </td>
+                        <td>
+                            <span e-form="rowform" e-class="input-sm" e-name="type"
+                                  onshow="getTransactionTypes()" e-ng-options="c.enum as c.name for c in types"
+                                  editable-select="i.transaction_type">
+                            {{ i.transaction_type }}
+                            </span>
+                        </td>
+                        <td>
+                            <span e-form="rowform" e-class="input-sm" e-name="category_id"
+                                    onshow="loadCategories()" e-ng-options="c.id as c.name for c in categories"
+                                    editable-select="i.category_id">
+                                {{ i.category_name }}
+                            </span>
+                        </td>
+                        <td>
+                            <span e-form="rowform" e-class="input-sm" e-name="comment"
+                                    editable-text="i.comment">
+                                {{ i.comment }}
+                            </span>
+                        </td>
+                        <td>
+                            <!-- form -->
+                            <form editable-form name="rowform" onbeforesave="saveTransaction($data, i.id)" ng-show="rowform.$visible"
+                                  class="form-buttons form-inline">
+                                <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-xs btn-primary">
+                                    Save
+                                </button>
+                                <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-xs btn-default">
+                                    Cancel
+                                </button>
+                            </form>
+                            <div class="buttons" ng-show="!rowform.$visible">
+                                <button type="button" class="btn btn-xs btn-primary" ng-click="rowform.$show()">Edit</button>
+                                <button type="button" class="btn btn-xs btn-danger" ng-click="deleteTransaction(i.id)">Delete</button>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>

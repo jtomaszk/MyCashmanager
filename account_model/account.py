@@ -34,28 +34,27 @@ class Account(db.Model, Serializer, UserAware):
             "currency_name": self.currency.name
         }
 
-    @classmethod
-    def get_account(cls, account_id, user_id):
-        return cls.query \
-            .filter(Account.user_id.is_(user_id)) \
-            .filter(Account.id.is_(account_id)) \
-            .one()
-
     def add_income(self, amount, category_id, comment='', date=datetime.datetime.now()):
         transaction = Transaction(self.id, amount, 'INCOME', category_id)
         transaction.comment = comment
         transaction.date = date
         transaction.add()
-        self.balance += amount
+        self.increase_balance(amount)
         return transaction
+
+    def increase_balance(self, amount):
+        self.balance += amount
 
     def add_outcome(self, amount, category_id, comment='', date=datetime.datetime.now()):
         transaction = Transaction(self.id, amount, 'OUTCOME', category_id)
         transaction.comment = comment
         transaction.date = date
         transaction.add()
-        self.balance -= amount
+        self.decrease_balance(amount)
         return transaction
+
+    def decrease_balance(self, amount):
+        self.balance -= amount
 
     def check_balance(self):
         balance = 0

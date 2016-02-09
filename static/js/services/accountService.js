@@ -14,15 +14,12 @@ angular.module('myCashManager.accountServices', [])
         return $http({method: 'GET', url: '/transactions/' + accountId});
     };
 
-    this.getCurrencies = function() {
-        return $http({method: 'GET', url: '/currencies'});
+    this.deleteTransaction = function(transactionId) {
+        return $http.delete('/transaction/' + transactionId);
     };
 
-    this.putAccount = function(selected) {
-        return $http.put('/account', {
-            currencyId: selected.currency.id,
-            accountName: selected.accountName
-        });
+    this.postTransaction = function(data) {
+        return $http.post('/transaction', data);
     };
 
     this.putTransaction = function(selected) {
@@ -34,6 +31,17 @@ angular.module('myCashManager.accountServices', [])
             value: selected.value,
             comment: selected.comment,
             destinationAccountId: selected.destinationAccount != null ? selected.destinationAccount.id : null
+        });
+    };
+
+    this.getCurrencies = function() {
+        return $http({method: 'GET', url: '/currencies'});
+    };
+
+    this.putAccount = function(selected) {
+        return $http.put('/account', {
+            currencyId: selected.currency.id,
+            accountName: selected.accountName
         });
     };
 

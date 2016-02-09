@@ -58,7 +58,7 @@ class TestAccount(TestCase):
         Account(USER_ID_2, self.CURRENCY_ID, 'nazwa').add()
         account = Account(USER_ID, self.CURRENCY_ID, 'nazwa2').add()
 
-        result = Account.get_account(account.id, USER_ID)
+        result = Account.get(account.id)
 
         self.assertEqual(result.name, 'nazwa2')
 
