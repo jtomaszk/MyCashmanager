@@ -9,7 +9,7 @@ before_install:
 install: "pip install -r requirements.txt"
 
 # command to run tests
-script: "python setup.py develop && nosetests"
+script: "python setup.py develop && nosetests --with-coverage"
 
 after_success:
   - codecov
