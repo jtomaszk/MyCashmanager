@@ -7,8 +7,8 @@ import uuid
 import datetime
 
 
-CURRENT_TIME = datetime.datetime.now()
-CURRENT_TIME_TRUNC = CURRENT_TIME.replace(hour=0, minute=0, second=0, microsecond=0)
+CURRENT_TIME = datetime.datetime(2016, 2, 12, 11, 41, 12, 1)
+CURRENT_TIME_TRUNC = datetime.date(2016, 2, 12)
 START_DATE = datetime.datetime(2015, 10, 25)
 
 __author__ = 'jtomaszk'
