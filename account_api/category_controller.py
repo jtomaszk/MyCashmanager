@@ -1,6 +1,7 @@
 from flask import *
 
 from account_model.category import Category
+from account_model.transaction import Transaction
 from account_api.data_initializer import DataInitializer
 
 __author__ = 'jtomaszk'
@@ -39,4 +40,9 @@ def post_category():
 
 @category_api.route('/category/<uuid:category_id>', methods=['DELETE'])
 def delete_category(category_id):
-    raise Exception('Not implemented!')  # TODO
+    trans_list = Transaction.query.filter_by(category_id=category_id).all()
+    if len(trans_list) > 0:
+        return 'Category is connected to some transactions', 400
+
+    Category.get(category_id).delete()
+    return jsonify(response=True)

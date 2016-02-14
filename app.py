@@ -33,24 +33,26 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.debug = True
 app.secret_key = 'development'
 
-assets = Environment(app)
-assets.debug = True
-js = Bundle('js/app.js',
-            'js/dash/dash.js',
-            'js/dash/add_transaction_ctrl.js',
-            'js/dash/create_account_ctrl.js',
-            'js/account/account.js',
-            'js/version/version.js',
-            'js/version/version-directive.js',
-            'js/version/interpolate-filter.js',
-            'js/services/accountService.js',
-            'js/services/appService.js',
-            'js/category/category.js',
-            'js/cycles/cycles.js',
-            'js/cycles/add_cycle_ctrl.js',
-            'js/cycles/add_cycle_transaction_ctrl.js',
-            filters='rjsmin', output='gen/packed.js')
-assets.register('js_all', js)
+# assets = Environment(app)
+# assets.debug = True
+# js = Bundle(
+#     # 'js/app.js',
+#     #         'js/dash/dash.js',
+#     #         'js/dash/add_transaction_ctrl.js',
+#     #         'js/dash/create_account_ctrl.js',
+#     #         'js/account/account.js',
+#     #         'js/version/version.js',
+#     #         'js/version/version-directive.js',
+#     #         'js/version/interpolate-filter.js',
+#     #         'js/services/accountService.js',
+#     #         'js/services/appService.js',
+#     #         'js/category/category.js',
+#     #         'js/cycles/cycles.js',
+#     #         'js/cycles/add_cycle_ctrl.js',
+#     #         'js/cycles/add_cycle_transaction_ctrl.js',
+#     #         filters='rjsmin', output='gen/packed.js'
+# )
+# assets.register('js_all', js)
 
 db.init_app(app)
 oauth = OAuth()

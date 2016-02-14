@@ -44,10 +44,30 @@
     <script src="{{ url_for('bower.static', filename='angular-animate/angular-animate.js') }}"></script>
     <script src="{{ url_for('bower.static', filename='angular-bootstrap/ui-bootstrap-tpls.min.js') }}"></script>
     <script src="{{ url_for('bower.static', filename='angular-xeditable/dist/js/xeditable.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='angular-utils-pagination/dirPagination.js') }}"></script>
 
-    {% assets "js_all" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
+
+    <script src="{{ url_for('bower.static', filename='mycashmanager-ui/app.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='mycashmanager-ui/dash/dash.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='mycashmanager-ui/dash/add_transaction_ctrl.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='mycashmanager-ui/dash/create_account_ctrl.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='mycashmanager-ui/account/account.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='mycashmanager-ui/version/version.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='mycashmanager-ui/version/version-directive.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='mycashmanager-ui/version/interpolate-filter.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='mycashmanager-ui/services/accountService.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='mycashmanager-ui/services/appService.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='mycashmanager-ui/category/category.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='mycashmanager-ui/cycles/cycles.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='mycashmanager-ui/cycles/add_cycle_ctrl.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='mycashmanager-ui/cycles/add_cycle_transaction_ctrl.js') }}"></script>
+
+
+<script>
+    function $apiRoot() {
+        return 'bower/mycashmanager-ui/';
+    }
+</script>
 
 </body>
 </html>

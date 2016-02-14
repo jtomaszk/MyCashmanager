@@ -1,27 +1,24 @@
 {
-  "name": "angular-seed",
-  "description": "A starter project for AngularJS",
-  "version": "0.0.0",
-  "homepage": "https://github.com/angular/angular-seed",
+  "name": "mycashmanager",
+  "authors": [
+    "Jarema Tomaszkiewicz <jarema.tomaszkiewicz@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [
+    "node"
+  ],
   "license": "MIT",
+  "homepage": "",
   "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
   "dependencies": {
-    "angular": "~1.4.0",
-    "angular-route": "~1.4.0",
-    "angular-loader": "~1.4.0",
-    "angular-mocks": "~1.4.0",
-    "angular-bootstrap": "~1.1.1",
-    "angular-xeditable": "~0.1.8",
-    "html5-boilerplate": "~5.2.0",
-    "bootstrap": "~3.3.6",
-    "angular-messages": "~1.4.7",
-    "bootstrap-select": "~1.7.5",
-    "Flot": "jquery-flot#~0.8.3",
-    "angular-translate": "~2.8.1",
-    "angular-translate-loader-static-files": "~2.8.1",
-    "angular-translate-storage-local": "~2.8.1",
-    "angular-cookie": "~4.0.9",
-    "angular-animate": "~1.4.8",
-    "jasmine-core": "jasmine#~2.3.4"
+    "mycashmanager-ui": "*"
   }
 }

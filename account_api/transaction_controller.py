@@ -1,5 +1,6 @@
 from flask import *
 
+from common.common import *
 from account_model.account import *
 from account_api.data_initializer import DataInitializer
 
@@ -13,22 +14,27 @@ di = DataInitializer()
 @transaction_api.route('/transaction', methods=['PUT'])
 def put_transaction():
     account_id = request.json['accountId']
-    value = Decimal(request.json['value'])
+    value = to_decimal(request.json['value'])
     trans_type = request.json['type']
     category_id = request.json['categoryId']
     comment = request.json.get('comment', '')
+    trans_date = to_date(request.json['date'])
 
     account = Account.get(account_id)
 
     if trans_type == 'INCOME':
-        account.add_income(value, category_id, comment)
+        trans = account.add_income(value, category_id, comment)
+        trans.date = trans_date
     elif trans_type == 'OUTCOME':
-        account.add_outcome(value, category_id, comment)
+        trans = account.add_outcome(value, category_id, comment)
+        trans.date = trans_date
     elif trans_type == 'TRANSFER':
         destination_account_id = request.json['destinationAccountId']
         destination_account = Account.get(destination_account_id)
         source = account.add_outcome(value, category_id, comment)
+        source.date = trans_date
         destination = destination_account.add_income(value, category_id, comment)
+        destination.date = trans_date
         source.connect(destination)
         destination.connect(source)
     else:
@@ -40,10 +46,11 @@ def put_transaction():
 @transaction_api.route('/transaction', methods=['POST'])
 def post_transaction():
     transaction_id = request.json['id']
-    new_value = Decimal(request.json['value'])
+    new_value = to_decimal(request.json['value'])
     new_trans_type = request.json['type']
     category_id = request.json['category_id']
     comment = request.json.get('comment', '')
+    trans_date = to_date(request.json['date'])
 
     transaction = Transaction.get(transaction_id)
     account = Account.get(transaction.account_id)
@@ -69,6 +76,7 @@ def post_transaction():
     transaction.amount = new_value
     transaction.comment = comment
     transaction.category_id = category_id
+    transaction.date = trans_date
 
     return '', 200
 

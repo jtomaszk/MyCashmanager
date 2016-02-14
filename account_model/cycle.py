@@ -11,7 +11,7 @@ __author__ = 'jtomaszk'
 
 
 def trunc_date(date_value):
-    return datetime.datetime(date_value.year, date_value.month, date_value.day)
+    return datetime.date(date_value.year, date_value.month, date_value.day)
 
 
 class Cycle(db.Model, Serializer):
@@ -25,7 +25,7 @@ class Cycle(db.Model, Serializer):
     date_start = db.Column(db.Date, nullable=False)
     date_end = db.Column(db.Date)
     date_last = db.Column(db.Date)
-    date_next = db.Column(db.Date, nullable=False)
+    date_next = db.Column(db.Date)
     count = db.Column(db.Integer, default=0)
     max_count = db.Column(db.Integer)
     active = db.Column(db.Boolean, default=True)
