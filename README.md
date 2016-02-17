@@ -13,8 +13,7 @@ Personal accounting web application written in Python Flask & AngularJS.
 
 Create in root of app file `secret.prop`
 
-```
-#!ini
+```ini
 [GoogleOAuth] 
 GOOGLE_ID=insert_id
 GOOGLE_SECRET=insert_secret
