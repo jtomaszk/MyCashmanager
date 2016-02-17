@@ -13,11 +13,11 @@ class TestUser(TestCase):
         assert user is None
 
     def test_save_user(self):
-        user = User.add('Jan', 'email', 'picture', OAUTH2_ID)
+        user = User('Jan', 'email', 'picture', OAUTH2_ID).add()
         assert user is not None
 
     def test_save_user_and_find(self):
-        User.add('Jan', 'email', 'picture', OAUTH2_ID)
+        User('Jan', 'email', 'picture', OAUTH2_ID).add()
         user = User.get_by_oauth2_id(OAUTH2_ID)
         assert user is not None
 
