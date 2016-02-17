@@ -1,8 +1,10 @@
-from flask import *
+from flask import Blueprint, request, jsonify
+from flask.ext.login import current_user
 
 from common.common import *
 from account_model.cycle import Cycle
 from account_api.cycle_service import save_cycle_execution
+from auth_api.auth_controller import login_required
 
 __author__ = 'jtomaszk'
 
@@ -10,8 +12,9 @@ cycle_api = Blueprint('cycle_api', __name__)
 
 
 @cycle_api.route('/cycles', methods=['GET'])
+@login_required
 def get_cycles():
-    user_id = session['user_id']
+    user_id = current_user.id
     return jsonify(response=Cycle.serialize_list(Cycle.all(user_id)))
 
 

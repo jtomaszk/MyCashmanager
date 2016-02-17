@@ -1,5 +1,4 @@
 import uuid
-import datetime
 from sqlalchemy_utils import UUIDType
 
 from database.numeric_type import SqliteNumeric
@@ -35,23 +34,26 @@ class Account(db.Model, Serializer, UserAware):
         }
 
     def add_income(self, amount, category_id, comment='', date=datetime.datetime.now()):
-        transaction = Transaction(self.id, amount, 'INCOME', category_id)
-        transaction.comment = comment
-        transaction.date = date
-        transaction.add()
         self.increase_balance(amount)
-        return transaction
+        return self.create_and_add_transaction(amount, category_id, comment, date, 'INCOME')
 
     def increase_balance(self, amount):
         self.balance += amount
 
     def add_outcome(self, amount, category_id, comment='', date=datetime.datetime.now()):
-        transaction = Transaction(self.id, amount, 'OUTCOME', category_id)
-        transaction.comment = comment
-        transaction.date = date
-        transaction.add()
         self.decrease_balance(amount)
-        return transaction
+        return self.create_and_add_transaction(amount, category_id, comment, date, 'OUTCOME')
+
+    def create_and_add_transaction(self, amount, category_id, comment, date, transaction_type):
+        return Transaction(self.id,
+                           amount,
+                           transaction_type,
+                           category_id,
+                           None,
+                           None,
+                           date,
+                           comment) \
+            .add()
 
     def decrease_balance(self, amount):
         self.balance -= amount

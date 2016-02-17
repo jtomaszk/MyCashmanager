@@ -22,7 +22,7 @@ __author__ = 'jtomaszk'
 
 class TestTransaction(TestCase):
 
-    def set_up(self):
+    def setUp(self):
         TestCase.setUp(self)
 
     def test_construct(self):

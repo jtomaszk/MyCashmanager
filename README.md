@@ -7,3 +7,17 @@
 [![Issue Count](https://codeclimate.com/github/jtomaszk/MyCashmanager/badges/issue_count.svg)](https://codeclimate.com/github/jtomaszk/MyCashmanager)
 
 Personal accounting web application written in Python Flask & AngularJS.
+
+
+##Configuration
+
+Create in root of app file `secret.prop`
+
+```
+#!ini
+[GoogleOAuth] 
+GOOGLE_ID=insert_id
+GOOGLE_SECRET=insert_secret
+[App]
+TOKEN_SECRET=insert_random_string
+```

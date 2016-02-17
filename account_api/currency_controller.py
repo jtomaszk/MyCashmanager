@@ -1,4 +1,5 @@
-from flask import *
+from flask import Blueprint, request, jsonify
+from flask.ext.login import current_user
 
 from account_model.currency import Currency
 from account_api.data_initializer import DataInitializer

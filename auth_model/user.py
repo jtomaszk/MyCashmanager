@@ -1,5 +1,6 @@
-from flask import Blueprint
 import uuid
+
+from flask import Blueprint
 from sqlalchemy_utils import UUIDType
 
 from database.serializer import *
@@ -15,6 +16,7 @@ class User(db.Model, Serializer):
     email = db.Column(db.String(200))
     picture = db.Column(db.String(200))
     oauth2_id = db.Column(db.String(200))
+    is_active = db.Column(db.Boolean)
 
     def __init__(self, name, email, picture, oauth2_id):
         self.id = uuid.uuid4()
@@ -22,19 +24,17 @@ class User(db.Model, Serializer):
         self.email = email
         self.picture = picture
         self.oauth2_id = oauth2_id
+        self.is_active = True
 
     @classmethod
     def get_by_oauth2_id(cls, oauth2_id):
         return cls.query.filter_by(oauth2_id=oauth2_id).first()
 
-    @classmethod
-    def add(cls, name, email, picture, oauth2_id):
-        user = User(name, email, picture, oauth2_id)
-        db.session.add(user)
-        return user
+    def is_anonymous(self):
+        return False
 
-
-
+    def get_id(self):
+        return str(self.id)
 
 
 
