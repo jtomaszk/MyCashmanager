@@ -5,6 +5,7 @@ import os
 from flask.ext.login import LoginManager
 from flask import Flask
 from flask import session
+from flask import render_template
 from flask.ext.bower import Bower
 from flask.ext.cors import CORS
 from flask_script import Manager
@@ -22,19 +23,25 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 config = configparser.ConfigParser()
 secretPath = os.path.join(BASE_DIR, 'secret.prop')
 
-if not os.path.exists(secretPath):
-    raise ValueError('file not exists', BASE_DIR, secretPath)
-
 config.read(secretPath)
 
 app = Flask(__name__)
 
 CORS(app)
 
-app.config['GOOGLE_ID'] = config.get('GoogleOAuth', 'GOOGLE_ID')
-app.config['GOOGLE_SECRET'] = config.get('GoogleOAuth', 'GOOGLE_SECRET')
-app.config['TOKEN_SECRET'] = config.get('App', 'TOKEN_SECRET')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sqlite.db'
+if os.path.exists(secretPath):
+    app.config['GOOGLE_ID'] = config.get('GoogleOAuth', 'GOOGLE_ID')
+    app.config['GOOGLE_SECRET'] = config.get('GoogleOAuth', 'GOOGLE_SECRET')
+    app.config['TOKEN_SECRET'] = config.get('App', 'TOKEN_SECRET')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sqlite.db'
+elif os.environ.get('ENV_MODE', None) is not None:
+    app.config['GOOGLE_ID'] = os.environ['GOOGLE_ID']
+    app.config['GOOGLE_SECRET'] = os.environ['GOOGLE_SECRET']
+    app.config['TOKEN_SECRET'] = os.environ['TOKEN_SECRET']
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+else:
+    raise ValueError('environment variables not set or file not exists', BASE_DIR, secretPath)
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 app.debug = True
@@ -74,10 +81,15 @@ def teardown_request(exception):
 
 @app.route('/')
 def index():
-    if 'google_token' in session and 'user_id' in session:
-        return '', 200
-        # return render_template('index.html')
-    return '', 401
+    # if 'google_token' in session and 'user_id' in session:
+    #     return '', 200
+       return render_template('index.html')
+#     return '', 401
+
+
+@app.context_processor
+def get_google_id():
+    return dict(get_google_id=app.config['GOOGLE_ID']);
 
 
 if __name__ == '__main__':
