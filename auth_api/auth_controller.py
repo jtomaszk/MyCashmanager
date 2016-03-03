@@ -5,7 +5,7 @@ import requests
 from functools import wraps
 from jwt import DecodeError, ExpiredSignature
 from flask import session, request, jsonify, Blueprint
-from flask.ext.login import login_user, logout_user
+from flask.ext.login import login_user, logout_user, LoginManager
 
 from auth_model.auth_config import AuthConfig
 from auth_model.user import User
@@ -15,6 +15,8 @@ __author__ = 'jtomaszk'
 auth_api = Blueprint('auth_api', __name__)
 
 auth_config = None
+
+login_manager = LoginManager()
 
 @auth_api.record
 def record_auth(setup_state):

@@ -2,7 +2,7 @@ import configparser
 import sys
 
 import os
-from flask.ext.login import LoginManager
+from flask.ext.login import fresh_login_required
 from flask import Flask
 from flask import session
 from flask import render_template
@@ -17,7 +17,8 @@ from account_api.transaction_controller import transaction_api
 from account_api.category_controller import category_api
 from account_api.currency_controller import currency_api
 from account_api.cycle_controller import cycle_api
-from auth_api.auth_controller import auth_api
+from auth_api.auth_controller import auth_api, login_manager
+from auth_model.user import User
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 config = configparser.ConfigParser()
@@ -53,6 +54,8 @@ migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
+login_manager.init_app(app)
+
 app.register_blueprint(login_api)
 app.register_blueprint(account_api)
 app.register_blueprint(transaction_api)
@@ -63,7 +66,12 @@ app.register_blueprint(auth_api)
 
 Bower(app)
 
-login_manager = LoginManager(app)
+@login_manager.user_loader
+def load_user(user_id):
+    try:
+        return User.get(user_id)
+    except User.DoesNotExist:
+        return None
 
 
 def setup_database(app):
@@ -79,17 +87,15 @@ def teardown_request(exception):
         db.session.rollback()
 
 
+@fresh_login_required
 @app.route('/')
 def index():
-    # if 'google_token' in session and 'user_id' in session:
-    #     return '', 200
-       return render_template('index.html')
-#     return '', 401
+    return render_template('index.html')
 
 
 @app.context_processor
 def get_google_id():
-    return dict(get_google_id=app.config['GOOGLE_ID']);
+    return dict(get_google_id=app.config['GOOGLE_ID'])
 
 
 if __name__ == '__main__':
