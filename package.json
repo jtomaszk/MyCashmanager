@@ -6,7 +6,7 @@
   "repository": "https://github.com/jtomaszk/MyCashmanager",
   "license": "MIT",
   "scripts": {
-    "postinstall": "bower install",
+    "postinstall": "bower update",
     "prestart": "npm install",
     "start": "http-server -a localhost -p 8000 -c-1",
     "pretest": "npm install"
