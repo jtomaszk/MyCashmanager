@@ -13,26 +13,12 @@
     <link rel=stylesheet type=text/css href="{{ url_for('bower.static', filename='bootstrap-select/dist/css/bootstrap-select.min.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('bower.static', filename='angular-bootstrap/ui-bootstrap-csp.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('bower.static', filename='angular-xeditable/dist/css/xeditable.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('bower.static', filename='angular-toastr/dist/angular-toastr.css') }}">
 
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/app.css') }}">
 </head>
 <body role="document">
-    <link id="linkApiRoot" href="/static/js/"/>
 
-    <!--
-    <h1>Flask OAuth Example</h1>
-    <ul class=navigation>
-        <li><a href=" {{ url_for('index') }}">overview</a></li>
-        {% if g.user %}
-        <li><a href="{{ url_for('logout') }}">sign out [{{ g.user.screen_name}}]</a></li>
-        {% else %}
-        <li><a href="{{ url_for('login') }}">sign in</a></li>
-        {% endif %}
-    </ul>
-    {% for message in get_flashed_messages() %}
-    <p class=message>{{ message }}</p>
-    {% endfor %}
-    -->
     {% block body %}{% endblock %}
 
 
@@ -44,6 +30,8 @@
     <script src="{{ url_for('bower.static', filename='angular-bootstrap/ui-bootstrap-tpls.min.js') }}"></script>
     <script src="{{ url_for('bower.static', filename='angular-xeditable/dist/js/xeditable.js') }}"></script>
     <script src="{{ url_for('bower.static', filename='angular-utils-pagination/dirPagination.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='angular-toastr/dist/angular-toastr.tpls.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='satellizer/satellizer.min.js') }}"></script>
 
 
     <script src="{{ url_for('bower.static', filename='mycashmanager-ui/app.js') }}"></script>
@@ -64,7 +52,15 @@
 
 <script>
     function $apiRoot() {
-        return 'bower/mycashmanager-ui/';
+        return '/bower/mycashmanager-ui/';
+    }
+
+    function $backendRoot() {
+        return '';
+    }
+
+    function $googleOauth2ClientId() {
+        return '{{  get_google_id }}';
     }
 </script>
 
