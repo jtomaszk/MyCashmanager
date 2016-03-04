@@ -20,3 +20,27 @@ GOOGLE_SECRET=insert_secret
 [App]
 TOKEN_SECRET=insert_random_string
 ```
+
+##Run on Heroku
+### Configuring heroku
+set Config Variables:
+```
+DATABASE_URL postgres://...
+ENV_MODE true
+GOOGLE_ID
+GOOGLE_SECRET
+TOKEN_SECRET 
+```
+
+add buildpack for node and python
+```
+heroku buildpacks
+=== demo-mycashmanager Buildpack URLs
+1. heroku/nodejs
+2. heroku/python
+```
+
+### Intialize database 
+```
+heroku run python app.py db upgrade
+```
