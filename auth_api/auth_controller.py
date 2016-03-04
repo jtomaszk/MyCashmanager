@@ -4,7 +4,7 @@ import json
 import requests
 from functools import wraps
 from jwt import DecodeError, ExpiredSignature
-from flask import session, request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint
 from flask.ext.login import login_user, logout_user, LoginManager
 
 from auth_model.auth_config import AuthConfig
@@ -116,7 +116,5 @@ def post_auth(auth_type):
     if user is None:
         user = User(profile['name'], profile['email'], profile['picture'], profile['id']).add()
 
-    session['user_id'] = user.id
-    print(session)
     token = create_token(user)
     return jsonify(token=token)
